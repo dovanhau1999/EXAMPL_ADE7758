@@ -1,7 +1,10 @@
-../Core/Src/main.c:84:5:main	8	static
-../Core/Src/main.c:167:6:SystemClock_Config	72	static
-../Core/Src/main.c:203:13:MX_SPI1_Init	8	static
-../Core/Src/main.c:240:13:MX_USART2_UART_Init	8	static
-../Core/Src/main.c:272:13:MX_GPIO_Init	32	static
-../Core/Src/main.c:303:1:__io_putchar	16	static
-../Core/Src/main.c:318:6:Error_Handler	4	static,ignoring_inline_asm
+../Core/Src/main.c:87:6:HAL_UARTEx_RxEventCallback	24	static
+../Core/Src/main.c:97:5:stringToNumber	16	static
+../Core/Src/main.c:101:6:numberToString	16	static
+../Core/Src/main.c:111:5:main	24	static
+../Core/Src/main.c:210:6:SystemClock_Config	72	static
+../Core/Src/main.c:247:13:MX_SPI1_Init	8	static
+../Core/Src/main.c:285:13:MX_USART2_UART_Init	8	static
+../Core/Src/main.c:318:13:MX_GPIO_Init	32	static
+../Core/Src/main.c:349:1:__io_putchar	16	static
+../Core/Src/main.c:364:6:Error_Handler	4	static,ignoring_inline_asm
