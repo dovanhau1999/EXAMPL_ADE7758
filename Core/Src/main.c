@@ -112,9 +112,9 @@ void numberToString(int num, char *str)
 /* USER CODE END 0 */
 
 /**
- * @brief  The application entry point.
- * @retval int
- */
+  * @brief  The application entry point.
+  * @retval int
+  */
 int main(void)
 {
 
@@ -147,11 +147,11 @@ int main(void)
   HAL_UARTEx_ReceiveToIdle_IT(&huart2, rx_data, MAX_BUFFER);
   ADE7758_Init(&ade7758_1, &hspi1, GPIOB, GPIO_PIN_0);
 
-  ADE7758_Write(&ade7758_1, 0x05, SAGCYC, 1);
-  ADE7758_Write(&ade7758_1, 0x30, SAGLVL, 1);
-  ADE7758_Write(&ade7758_1, 0x1C0, MASK, 3);
-  ADE7758_Write(&ade7758_1, 0x40, LCYCMODE, 1);
-  ADE7758_Write(&ade7758_1, 0x9C, COMPMODE, 1);
+  // ADE7758_Write(&ade7758_1, 0x05, SAGCYC, 1);
+  // ADE7758_Write(&ade7758_1, 0x30, SAGLVL, 1);
+  // ADE7758_Write(&ade7758_1, 0x1C0, MASK, 3);
+  // ADE7758_Write(&ade7758_1, 0x40, LCYCMODE, 1);
+  // ADE7758_Write(&ade7758_1, 0x9C, COMPMODE, 1);
 
   ADE7758_Write(&ade7758_1, 0xF8, AVRMSOS, 2);
   ADE7758_Write(&ade7758_1, 0x19, AIRMSOS, 2);
@@ -177,42 +177,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
-    /*BEGIN 1 - TAKE OF HE SO*/
-    // printf("Gia Tri Dien Ap ADC: %d \n\r", (int32_t)ADE7758_Read(&ade7758_1, AIRMS, 3));
-    // printf("Gia Tri Dong Dien ADC: %d \n\r", (int32_t)ADE7758_Read(&ade7758_1, AVRMS, 3));
-    // printf("Gia Tri Cong Suat ADC: %d \n\r", (int32_t)ADE7758_Read(&ade7758_1, AWATTHR, 2));
-    // printf("Gia Tri Cong Suat Phan Khang ADC: %d \n\r", (int32_t)ADE7758_Read(&ade7758_1, AVARHR, 2));
-    // printf("Gia Tri Cong Suat Toan Phan ADC: %d \n\r", (int32_t)ADE7758_Read(&ade7758_1, AVAHR, 2));
-    /*END 1*/
-
-    /*BEGIN 2 - READ PARAMETER*/
-    // dummy[0] = (int32_t)ADE7758_Read(&ade7758_1, AIRMS, 3) * 170 / 7432;
-    // dummy[1] = (int32_t)ADE7758_Read(&ade7758_1, AVRMS, 3) * 220 / 1078302;
-    // dummy[2] = (int32_t)ADE7758_Read(&ade7758_1, AWATTHR, 2) * 40 / 9;
-    // dummy[3] = (int32_t)ADE7758_Read(&ade7758_1, AVARHR, 2);
-    // dummy[4] = (int32_t)ADE7758_Read(&ade7758_1, AVAHR, 2);
-    // printf("Gia Tri Dien Ap: %d \n\r", (int32_t)ADE7758_Read(&ade7758_1, AIRMS, 3) * 170 / 7432);
-    // printf("Gia Tri Dong Dien: %d \n\r", (int32_t)ADE7758_Read(&ade7758_1, AVRMS, 3) * 220 / 1078302);
-    // printf("Gia Tri Cong Suat: %d \n\r", ADE7758_Read(&ade7758_1, AWATTHR, 2) * 40 / 9);
-    // printf("Gia Tri Cong Suat Phan Khang: %d \n\r", (int32_t)ADE7758_Read(&ade7758_1, AVARHR, 2));
-    // printf("Gia Tri Cong Suat Toan Phan ADC: %d \n\r", (int32_t)ADE7758_Read(&ade7758_1, AVAHR, 2));
-    /*END 2*/
-
-    // SEND DATA RESPONED
-    //     if (flag_rx)
-    //     {
-    //       /* code */
-    //       flag_rx = false;
-    //       char tx_char[10];
-    //       uint8_t num = strlen(cop_rx_data);
-    //       numberToString(num, tx_char);
-    //  HAL_UART_Transmit(&huart2, tx_char, strlen(tx_char), 1000);
-    // //      printf("abc");
-    //       memset(rx_data, 0, MAX_BUFFER);
-    //       // memset(cop_rx_data, 0, MAX_BUFFER);gi
-    // }
-
     switch (Next_page)
     {
     case CASE1:
@@ -285,9 +249,8 @@ int main(void)
           Flag_Rx = false;
           length = strlen((char *)cop_rx_data);
           ADC_Voltage = stringToNumber((char *)cop_rx_data);
+          memset(rx_data, 0, MAX_BUFFER);
           // ADC_Voltage = ADC_Voltage - 100;
-          // numberToString(ADC_Voltage, (char *)cop_rx_data);
-          // HAL_UART_Transmit(&huart2, (uint8_t *)cop_rx_data, strlen((char *)cop_rx_data), Max_Timeout);
 
           Select = CASE2;
           Flag_display = false;
@@ -309,8 +272,7 @@ int main(void)
           Flag_Rx = false;
           length = strlen((char *)cop_rx_data);
           ADC_Current = stringToNumber((char *)cop_rx_data);
-          // numberToString(ADC_Voltage, (char *)cop_rx_data);
-          // HAL_UART_Transmit(&huart2, (uint8_t *)cop_rx_data, strlen((char *)cop_rx_data), Max_Timeout);
+          memset(rx_data, 0, MAX_BUFFER);
 
           Select = CASE3;
           Flag_display = false;
@@ -332,8 +294,7 @@ int main(void)
           Flag_Rx = false;
           length = strlen((char *)cop_rx_data);
           ADC_Power = stringToNumber((char *)cop_rx_data);
-          // numberToString(ADC_Voltage, (char *)cop_rx_data);
-          // HAL_UART_Transmit(&huart2, (uint8_t *)cop_rx_data, strlen((char *)cop_rx_data), Max_Timeout);
+          memset(rx_data, 0, MAX_BUFFER);
 
           Select = CASE4;
           Flag_display = false;
@@ -355,8 +316,7 @@ int main(void)
           Flag_Rx = false;
           length = strlen((char *)cop_rx_data);
           ADC_Reactive = stringToNumber((char *)cop_rx_data);
-          // numberToString(ADC_Voltage, (char *)cop_rx_data);
-          // HAL_UART_Transmit(&huart2, (uint8_t *)cop_rx_data, strlen((char *)cop_rx_data), Max_Timeout);
+          memset(rx_data, 0, MAX_BUFFER);
 
           Select = CASE5;
           Flag_display = false;
@@ -378,8 +338,7 @@ int main(void)
           Flag_Rx = false;
           length = strlen((char *)cop_rx_data);
           ADC_Apparent = stringToNumber((char *)cop_rx_data);
-          // numberToString(ADC_Voltage, (char *)cop_rx_data);
-          // HAL_UART_Transmit(&huart2, (uint8_t *)cop_rx_data, strlen((char *)cop_rx_data), Max_Timeout);
+          memset(rx_data, 0, MAX_BUFFER);
 
           Select = CASE6;
           Flag_display = false;
@@ -401,8 +360,7 @@ int main(void)
           Flag_Rx = false;
           length = strlen((char *)cop_rx_data);
           VALUE_Voltage = stringToNumber((char *)cop_rx_data);
-          // numberToString(ADC_Voltage, (char *)cop_rx_data);
-          // HAL_UART_Transmit(&huart2, (uint8_t *)cop_rx_data, strlen((char *)cop_rx_data), Max_Timeout);
+          memset(rx_data, 0, MAX_BUFFER);
 
           Select = CASE7;
           Flag_display = false;
@@ -424,8 +382,7 @@ int main(void)
           Flag_Rx = false;
           length = strlen((char *)cop_rx_data);
           VALUE_Current = stringToNumber((char *)cop_rx_data);
-          // numberToString(ADC_Voltage, (char *)cop_rx_data);
-          // HAL_UART_Transmit(&huart2, (uint8_t *)cop_rx_data, strlen((char *)cop_rx_data), Max_Timeout);
+          memset(rx_data, 0, MAX_BUFFER);
 
           Select = CASE8;
           Flag_display = false;
@@ -447,8 +404,7 @@ int main(void)
           Flag_Rx = false;
           length = strlen((char *)cop_rx_data);
           VALUE_Power = stringToNumber((char *)cop_rx_data);
-          // numberToString(ADC_Voltage, (char *)cop_rx_data);
-          // HAL_UART_Transmit(&huart2, (uint8_t *)cop_rx_data, strlen((char *)cop_rx_data), Max_Timeout);
+          memset(rx_data, 0, MAX_BUFFER);
 
           Select = CASE9;
           Flag_display = false;
@@ -470,8 +426,7 @@ int main(void)
           Flag_Rx = false;
           length = strlen((char *)cop_rx_data);
           VALUE_Reactive = stringToNumber((char *)cop_rx_data);
-          // numberToString(ADC_Voltage, (char *)cop_rx_data);
-          // HAL_UART_Transmit(&huart2, (uint8_t *)cop_rx_data, strlen((char *)cop_rx_data), Max_Timeout);
+          memset(rx_data, 0, MAX_BUFFER);
 
           Select = CASE10;
           Flag_display = false;
@@ -493,8 +448,7 @@ int main(void)
           Flag_Rx = false;
           length = strlen((char *)cop_rx_data);
           VALUE_Apparent = stringToNumber((char *)cop_rx_data);
-          // numberToString(ADC_Voltage, (char *)cop_rx_data);
-          // HAL_UART_Transmit(&huart2, (uint8_t *)cop_rx_data, strlen((char *)cop_rx_data), Max_Timeout);
+          memset(rx_data, 0, MAX_BUFFER);
 
           Select = CASE11;
           Flag_display = false;
@@ -505,71 +459,17 @@ int main(void)
         if (Flag_display == false)
         {
           /* code */
-          strcpy(Line1, "\n\rDa nhap DIEN AP (ADC-VALUE)      : ");
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
-          numberToString((int)ADC_Voltage, (char *)Line1);
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
-          strcpy(Line1, "  -  ");
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
-          numberToString((int)VALUE_Voltage, (char *)Line1);
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
+          printf("\n\rDa nhap DIEN AP (ADC-VALUE)      : %ld - %ld", ADC_Voltage, VALUE_Voltage);
 
-          strcpy(Line1, "\n\rDa nhap DONG DIEN (ADC-VALUE)    : ");
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
-          numberToString((int)ADC_Current, (char *)Line1);
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
-          strcpy(Line1, "  -  ");
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
-          numberToString((int)VALUE_Current, (char *)Line1);
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
+          printf("\n\rDa nhap DONG DIEN (ADC-VALUE)    : %ld - %ld", ADC_Current, VALUE_Current);
 
-          strcpy(Line1, "\n\rDa nhap CONG SUAT (ADC-VALUE)    : ");
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
-          numberToString((int)ADC_Power, (char *)Line1);
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
-          strcpy(Line1, "  -  ");
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
-          numberToString((int)VALUE_Power, (char *)Line1);
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
+          printf("\n\rDa nhap CONG SUAT (ADC-VALUE)    : %ld - %ld", ADC_Power, VALUE_Power);
 
-          strcpy(Line1, "\n\rDa nhap CONG SUAT PK (ADC-VALUE) : ");
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
-          numberToString((int)ADC_Reactive, (char *)Line1);
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
-          strcpy(Line1, "  -  ");
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
-          numberToString((int)VALUE_Reactive, (char *)Line1);
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
+          printf("\n\rDa nhap CONG SUAT PK (ADC-VALUE) : %ld - %ld", ADC_Reactive, VALUE_Reactive);
 
-          strcpy(Line1, "\n\rDa nhap CONG SUAT TP (ADC-VALUE) : ");
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
-          numberToString((int)ADC_Apparent, (char *)Line1);
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
-          strcpy(Line1, "  -  ");
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
-          numberToString((int)VALUE_Apparent, (char *)Line1);
-          HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-          memset(Line1, 0, MAX_BUFFER);
+          printf("\n\rDa nhap CONG SUAT TP (ADC-VALUE) : %ld - %ld", ADC_Apparent, VALUE_Apparent);
 
+          Select = CASE1;
           Next_page = CASE1;
         }
 
@@ -582,83 +482,45 @@ int main(void)
       break;
 
     case CASE3:
-      printf("Gia Tri DONG DIEN   : %ld \n\r", (int32_t)ADE7758_Read(&ade7758_1, AIRMS, 3) * VALUE_Current * 10 / ADC_Current);
-      printf("Gia Tri DIEN AP     : %ld \n\r", (int32_t)ADE7758_Read(&ade7758_1, AVRMS, 3) * VALUE_Voltage / ADC_Voltage);
-      printf("Gia Tri Cong Suat   : %ld \n\r", (int32_t)ADE7758_Read(&ade7758_1, AWATTHR, 2) * VALUE_Power * 10 / ADC_Power);
-      printf("Gia Tri Cong Suat Phan Khang : %ld \n\r", (int32_t)ADE7758_Read(&ade7758_1, AVARHR, 2) * VALUE_Reactive * 10 / ADC_Reactive);
-      printf("Gia Tri Cong Suat Toan Phan  : %ld \n\r", (int32_t)ADE7758_Read(&ade7758_1, AVAHR, 2) * VALUE_Apparent * 10 / ADC_Apparent);
+      printf("\n\r");
+      printf("Gia Tri DONG DIEN Phase A  : %ld \n\r", (((int32_t)ADE7758_Read(&ade7758_1, AIRMS, 3) * 100) / ADC_Current) * (uint16_t)VALUE_Current);
+      printf("Gia Tri DIEN AP Phase A    : %ld \n\r", (((int32_t)ADE7758_Read(&ade7758_1, AVRMS, 3) * 100) / ADC_Voltage) * (uint16_t)VALUE_Voltage);
+      printf("Gia Tri CONG SUAT Phase A  : %ld \n\r", (((int32_t)ADE7758_Read(&ade7758_1, AWATTHR, 2) * 100) / ADC_Power) * (uint16_t)VALUE_Power);
+      printf("Gia Tri CONG SUAT Phan Khang Phase A : %ld \n\r", (((int32_t)ADE7758_Read(&ade7758_1, AVARHR, 2) * 100) / ADC_Reactive) * (uint16_t)VALUE_Reactive);
+      printf("Gia Tri CONG SUAT Toan Phan Phase A  : %ld \n\r", (((int32_t)ADE7758_Read(&ade7758_1, AVAHR, 2) * 100) / ADC_Apparent) * (uint16_t)VALUE_Apparent);
+
+      printf("Gia Tri DONG DIEN Phase B  : %ld \n\r", (((int32_t)ADE7758_Read(&ade7758_1, BIRMS, 3) * 100) / ADC_Current) * (uint16_t)VALUE_Current);
+      printf("Gia Tri DIEN AP Phase B    : %ld \n\r", (((int32_t)ADE7758_Read(&ade7758_1, BVRMS, 3) * 100) / ADC_Voltage) * (uint16_t)VALUE_Voltage);
+      printf("Gia Tri CONG SUAT Phase B  : %ld \n\r", (((int32_t)ADE7758_Read(&ade7758_1, BWATTHR, 2) * 100) / ADC_Power) * (uint16_t)VALUE_Power);
+      printf("Gia Tri CONG SUAT Phan Khang Phase B : %ld \n\r", (((int32_t)ADE7758_Read(&ade7758_1, BVARHR, 2) * 100) / ADC_Reactive) * (uint16_t)VALUE_Reactive);
+      printf("Gia Tri CONG SUAT Toan Phan Phase B  : %ld \n\r", (((int32_t)ADE7758_Read(&ade7758_1, BVAHR, 2) * 100) / ADC_Apparent) * (uint16_t)VALUE_Apparent);
+
+      printf("Gia Tri DONG DIEN Phase C  : %ld \n\r", (((int32_t)ADE7758_Read(&ade7758_1, CIRMS, 3) * 100) / ADC_Current) * (uint16_t)VALUE_Current);
+      printf("Gia Tri DIEN AP Phase C    : %ld \n\r", (((int32_t)ADE7758_Read(&ade7758_1, CVRMS, 3) * 100) / ADC_Voltage) * (uint16_t)VALUE_Voltage);
+      printf("Gia Tri CONG SUAT Phase C  : %ld \n\r", (((int32_t)ADE7758_Read(&ade7758_1, CWATTHR, 2) * 100) / ADC_Power) * (uint16_t)VALUE_Power);
+      printf("Gia Tri CONG SUAT Phan Khang Phase C : %ld \n\r", (((int32_t)ADE7758_Read(&ade7758_1, CVARHR, 2) * 100) / ADC_Reactive) * (uint16_t)VALUE_Reactive);
+      printf("Gia Tri CONG SUAT Toan Phan Phase C  : %ld \n\r", (((int32_t)ADE7758_Read(&ade7758_1, CVAHR, 2) * 100) / ADC_Apparent) * (uint16_t)VALUE_Apparent);
+
+      printf("Gia Tri TAN SO      : %ld \n\r", (int32_t)ADE7758_Read(&ade7758_1, FREQ, 2));
+      // printf("Gia Tri thanh ghi STATUS     : %ld \n\r", (int32_t)ADE7758_Read(&ade7758_1, STATUS, 3));
+      // printf("Gia Tri thanh ghi RESTATUS   : %ld \n\r", (int32_t)ADE7758_Read(&ade7758_1, RSTATUS, 3));
       Next_page = CASE1;
-      
+
       break;
 
     case CASE4:
       if (Flag_display == false)
       {
         /* code */
-        strcpy(Line1, "\n\rDa nhap DIEN AP (ADC-VALUE)      : ");
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
-        numberToString((int)ADC_Voltage, (char *)Line1);
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
-        strcpy(Line1, "  -  ");
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
-        numberToString((int)VALUE_Voltage, (char *)Line1);
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
+        printf("\n\rDa nhap DIEN AP (ADC-VALUE)      : %ld - %ld", ADC_Voltage, VALUE_Voltage);
 
-        strcpy(Line1, "\n\rDa nhap DONG DIEN (ADC-VALUE)    : ");
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
-        numberToString((int)ADC_Current, (char *)Line1);
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
-        strcpy(Line1, "  -  ");
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
-        numberToString((int)VALUE_Current, (char *)Line1);
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
+        printf("\n\rDa nhap DONG DIEN (ADC-VALUE)    : %ld - %ld", ADC_Current, VALUE_Current);
 
-        strcpy(Line1, "\n\rDa nhap CONG SUAT (ADC-VALUE)    : ");
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
-        numberToString((int)ADC_Power, (char *)Line1);
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
-        strcpy(Line1, "  -  ");
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
-        numberToString((int)VALUE_Power, (char *)Line1);
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
+        printf("\n\rDa nhap CONG SUAT (ADC-VALUE)    : %ld - %ld", ADC_Power, VALUE_Power);
 
-        strcpy(Line1, "\n\rDa nhap CONG SUAT PK (ADC-VALUE) : ");
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
-        numberToString((int)ADC_Reactive, (char *)Line1);
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
-        strcpy(Line1, "  -  ");
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
-        numberToString((int)VALUE_Reactive, (char *)Line1);
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
+        printf("\n\rDa nhap CONG SUAT PK (ADC-VALUE) : %ld - %ld", ADC_Reactive, VALUE_Reactive);
 
-        strcpy(Line1, "\n\rDa nhap CONG SUAT TP (ADC-VALUE) : ");
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
-        numberToString((int)ADC_Apparent, (char *)Line1);
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
-        strcpy(Line1, "  -  ");
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
-        numberToString((int)VALUE_Apparent, (char *)Line1);
-        HAL_UART_Transmit(&huart2, (uint8_t *)Line1, strlen(Line1), Max_Timeout);
-        memset(Line1, 0, MAX_BUFFER);
+        printf("\n\rDa nhap CONG SUAT TP (ADC-VALUE) : %ld - %ld", ADC_Apparent, VALUE_Apparent);
 
         Next_page = CASE1;
       }
@@ -673,18 +535,18 @@ int main(void)
 }
 
 /**
- * @brief System Clock Configuration
- * @retval None
- */
+  * @brief System Clock Configuration
+  * @retval None
+  */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
-   * in the RCC_OscInitTypeDef structure.
-   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI | RCC_OSCILLATORTYPE_LSI;
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_LSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.LSIState = RCC_LSI_ON;
@@ -695,8 +557,9 @@ void SystemClock_Config(void)
   }
 
   /** Initializes the CPU, AHB and APB buses clocks
-   */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
@@ -709,10 +572,10 @@ void SystemClock_Config(void)
 }
 
 /**
- * @brief IWDG Initialization Function
- * @param None
- * @retval None
- */
+  * @brief IWDG Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_IWDG_Init(void)
 {
 
@@ -733,13 +596,14 @@ static void MX_IWDG_Init(void)
   /* USER CODE BEGIN IWDG_Init 2 */
 
   /* USER CODE END IWDG_Init 2 */
+
 }
 
 /**
- * @brief SPI1 Initialization Function
- * @param None
- * @retval None
- */
+  * @brief SPI1 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_SPI1_Init(void)
 {
 
@@ -770,13 +634,14 @@ static void MX_SPI1_Init(void)
   /* USER CODE BEGIN SPI1_Init 2 */
 
   /* USER CODE END SPI1_Init 2 */
+
 }
 
 /**
- * @brief USART2 Initialization Function
- * @param None
- * @retval None
- */
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_USART2_UART_Init(void)
 {
 
@@ -802,18 +667,19 @@ static void MX_USART2_UART_Init(void)
   /* USER CODE BEGIN USART2_Init 2 */
 
   /* USER CODE END USART2_Init 2 */
+
 }
 
 /**
- * @brief GPIO Initialization Function
- * @param None
- * @retval None
- */
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
-  /* USER CODE BEGIN MX_GPIO_Init_1 */
-  /* USER CODE END MX_GPIO_Init_1 */
+/* USER CODE BEGIN MX_GPIO_Init_1 */
+/* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
@@ -829,8 +695,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /* USER CODE BEGIN MX_GPIO_Init_2 */
-  /* USER CODE END MX_GPIO_Init_2 */
+/* USER CODE BEGIN MX_GPIO_Init_2 */
+/* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
@@ -852,9 +718,9 @@ PUTCHAR_PROTOTYPE
 /* USER CODE END 4 */
 
 /**
- * @brief  This function is executed in case of error occurrence.
- * @retval None
- */
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -866,14 +732,14 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef USE_FULL_ASSERT
+#ifdef  USE_FULL_ASSERT
 /**
- * @brief  Reports the name of the source file and the source line number
- *         where the assert_param error has occurred.
- * @param  file: pointer to the source file name
- * @param  line: assert_param error line source number
- * @retval None
- */
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */

@@ -53,6 +53,9 @@ default.size.stdout \
 OBJDUMP_LIST += \
 EXAMPL_ADE7758.list \
 
+OBJCOPY_HEX += \
+EXAMPL_ADE7758.hex \
+
 
 # All Target
 all: main-build
@@ -61,8 +64,8 @@ all: main-build
 main-build: EXAMPL_ADE7758.elf secondary-outputs
 
 # Tool invocations
-EXAMPL_ADE7758.elf EXAMPL_ADE7758.map: $(OBJS) $(USER_OBJS) D:\2.PROJECT\10.KitADE7758\3.SOURCECODE\EXAMPL_ADE7758\STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "EXAMPL_ADE7758.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"D:\2.PROJECT\10.KitADE7758\3.SOURCECODE\EXAMPL_ADE7758\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EXAMPL_ADE7758.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+EXAMPL_ADE7758.elf EXAMPL_ADE7758.map: $(OBJS) $(USER_OBJS) D:\2.PROJECT\10.Project_Synchronous\1.KitADE7758\3.SOURCECODE\EXAMPL_ADE7758\STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "EXAMPL_ADE7758.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"D:\2.PROJECT\10.Project_Synchronous\1.KitADE7758\3.SOURCECODE\EXAMPL_ADE7758\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="EXAMPL_ADE7758.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -76,12 +79,17 @@ EXAMPL_ADE7758.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
+EXAMPL_ADE7758.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "EXAMPL_ADE7758.hex"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 # Other Targets
 clean:
-	-$(RM) EXAMPL_ADE7758.elf EXAMPL_ADE7758.list EXAMPL_ADE7758.map default.size.stdout
+	-$(RM) EXAMPL_ADE7758.elf EXAMPL_ADE7758.hex EXAMPL_ADE7758.list EXAMPL_ADE7758.map default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'
